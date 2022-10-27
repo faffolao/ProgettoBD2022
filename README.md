@@ -4,6 +4,9 @@ A cura di Alan Rossi, Federico Arduini, Luca Pigliacampo
 
 [Clicca qui per andare al documento del progetto](https://univpm-my.sharepoint.com/:w:/r/personal/s1098699_studenti_univpm_it/_layouts/15/Doc.aspx?sourcedoc=%7B78571a59-adba-4810-b746-d073e6327bdb%7D&action=edit&wdPid=100ae54b)
 
+## Obiettivo del progetto
+Sviluppare un database che contiene i dati dei rilevamenti fatti da un gruppo, il Progetto RIO, utili per la prevenzione di disastri naturali. Il database contiene anche post e contenuti multimediali generici relativi ai disastri naturali, che vengono sottoposti a *fact-checking*.
+
 ## Domande da fare per l'intervista
 ### Domande di stampo generale
 - vi occupate solamente del monitoraggio di fiumi o monitorano anche altro?
