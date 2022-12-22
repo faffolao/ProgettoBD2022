@@ -94,7 +94,8 @@ CREATE TABLE Utente (
     nome VARCHAR(20) NOT NULL,
     cognome VARCHAR(20) NOT NULL,
     nickname VARCHAR(20) NOT NULL,
-    grado_attendibilita DECIMAL (3, 1) DEFAULT NULL
+    grado_attendibilita DECIMAL (3, 1) DEFAULT NULL,
+    CHECK (grado_attendibilita >= 0.0 AND grado_attendibilita <= 10.0)
 );
 
 -- creazione tabella FactChecker
@@ -105,7 +106,8 @@ CREATE TABLE FactChecker (
     cognome VARCHAR(20) NOT NULL,
     nickname VARCHAR(20) NOT NULL,
     grado_attendibilita DECIMAL (3, 1) DEFAULT NULL,
-    societa VARCHAR(30)
+    societa VARCHAR(30),
+    CHECK (grado_attendibilita >= 0.0 AND grado_attendibilita <= 10.0)
 );
 
 -- creazione tabella UtentePiattaforma
@@ -120,7 +122,8 @@ CREATE TABLE UtentePiattaforma (
     citta VARCHAR(40),
     password CHAR(255) NOT NULL,
     email VARCHAR(30),
-    cellulare CHAR(10)
+    cellulare CHAR(10),
+    CHECK (grado_attendibilita >= 0.0 AND grado_attendibilita <= 10.0)
 );
 
 -- creazione tabella Post
@@ -138,5 +141,6 @@ CREATE TABLE Post (
         ON UPDATE CASCADE ON DELETE SET NULL,
     CONSTRAINT fk_id_utente
         FOREIGN KEY (id_utente) REFERENCES Utente(id)
-        ON UPDATE CASCADE ON DELETE NO ACTION
+        ON UPDATE CASCADE ON DELETE NO ACTION,
+    CHECK (grado_attendibilita >= 0.0 AND grado_attendibilita <= 10.0)
 );
