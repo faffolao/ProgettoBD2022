@@ -1,3 +1,6 @@
+-- +---------------------------+
+-- | MACRO BLOCCO MONITORAGGIO |
+-- +---------------------------+
 -- creazione tabella Collaboratore
 CREATE TABLE Collaboratore (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -29,26 +32,6 @@ CREATE TABLE Riparazione (
         ON UPDATE CASCADE ON DELETE SET NULL
 );
 
--- creazione tabella Zona
-CREATE TABLE Zona (
-    codice INT PRIMARY KEY AUTO_INCREMENT,
-    tipologia VARCHAR(30) NOT NULL,
-    comune VARCHAR(40) NOT NULL,
-    provincia VARCHAR(15) NOT NULL,
-    regione VARCHAR(20) NOT NULL,
-    latitudine DECIMAL(9, 7),
-    longitudine DECIMAL(9, 7),
-    quota DECIMAL(5, 1)
-);
-
--- creazione tabella Allerta
-CREATE TABLE Allerta (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    descrizione TEXT,
-    data_ora DATETIME NOT NULL,
-    tipologia VARCHAR(30) NOT NULL
-);
-
 -- creazione tabella SessioneCampionamento
 CREATE TABLE SessioneCampionamento (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -78,6 +61,32 @@ CREATE TABLE Misurazione (
         ON UPDATE CASCADE ON DELETE SET NULL
 );
 
+-- +---------------------------+
+-- | MACRO BLOCCO SEGNALAZIONE |
+-- +---------------------------+
+-- creazione tabella Zona
+CREATE TABLE Zona (
+    codice INT PRIMARY KEY AUTO_INCREMENT,
+    tipologia VARCHAR(30) NOT NULL,
+    comune VARCHAR(40) NOT NULL,
+    provincia VARCHAR(15) NOT NULL,
+    regione VARCHAR(20) NOT NULL,
+    latitudine DECIMAL(9, 7),
+    longitudine DECIMAL(9, 7),
+    quota DECIMAL(5, 1)
+);
+
+-- creazione tabella Allerta
+CREATE TABLE Allerta (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    descrizione TEXT,
+    data_ora DATETIME NOT NULL,
+    tipologia VARCHAR(30) NOT NULL
+);
+
+-- +-----------------------------+
+-- | MACRO BLOCCO SOCIAL NETWORK |
+-- +-----------------------------+
 -- creazione tabella Utente
 CREATE TABLE Utente (
     id INT PRIMARY KEY AUTO_INCREMENT,
