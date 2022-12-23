@@ -144,3 +144,106 @@ CREATE TABLE Post (
         ON UPDATE CASCADE ON DELETE NO ACTION,
     CHECK (grado_attendibilita >= 0.0 AND grado_attendibilita <= 10.0)
 );
+
+-- creazione tabella File multimediale
+CREATE TABLE FileMultimediale (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    url TEXT,
+    tipologia VARCHAR(20) NOT NULL,
+    grado_attendibilita DECIMAL (3, 1) DEFAULT NULL,
+    id_post INT,
+    id_segnalazione INT,
+    CONSTRAINT fk_id_post_file_multimediale
+        FOREIGN KEY (id_post) REFERENCES Post(id)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT fk_id_segnalazione_file_multimediale
+        FOREIGN KEY (id_segnalazione) REFERENCES Segnalazione(id)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    CHECK (grado_attendibilita >= 0.0 AND grado_attendibilita <= 10.0)
+);
+
+-- creazione tabella Segnalazione
+CREATE TABLE Segnalazione (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    commento TEXT,
+    tipologia VARCHAR(40) NOT NULL,
+    url_post TEXT,
+    situazione_di_pericolo BOOLEAN,
+    data_ora DATETIME NOT NULL,
+    grado_attendibilita DECIMAL (3, 1) DEFAULT NULL,
+    id_utente INT,
+    CONSTRAINT fk_id_utente_segnalazione
+        FOREIGN KEY (id_utente) REFERENCES Utente(id)
+        ON UPDATE CASCADE ON DELETE SET NULL,
+    CHECK (grado_attendibilita >= 0.0 AND grado_attendibilita <= 10.0)
+);
+
+-- +---------------------------------------+
+-- | ENTITA' DI COLLEGAMENTO MOLTI-A-MOLTI |
+-- +---------------------------------------+
+
+-- creazione tabella Esecuzione
+CREATE TABLE EsecuzioneRiparazione (
+    id_collaboratore INT,
+    id_riparazione INT,
+    PRIMARY KEY (id_collaboratore, id_riparazione),
+    CONSTRAINT fk_riparatore
+        FOREIGN KEY (id_collaboratore) REFERENCES Collaboratore(id)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT fk_riparazione
+        FOREIGN KEY (id_riparazione) REFERENCES Riparazione(id)
+        ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+-- creazione tabella Impiego
+CREATE TABLE ImpiegoSensore (
+    id_sessione INT,
+    matricola_sensore VARCHAR(12),
+    PRIMARY KEY (id_sessione, matricola_sensore),
+    CONSTRAINT fk_sessione_campionamento
+        FOREIGN KEY (id_sessione) REFERENCES SessioneCampionamento(id)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT fk_sensore_impiegato
+        FOREIGN KEY (matricola_sensore) REFERENCES Sensore(matricola)
+        ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+-- creazione tabella Avvio
+CREATE TABLE AvvioSessione (
+    id_collaboratore INT,
+    id_sessione INT,
+    PRIMARY KEY (id_collaboratore, id_sessione),
+    CONSTRAINT fk_collaboratore_sessione
+        FOREIGN KEY (id_collaboratore) REFERENCES Collaboratore(id)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT fk_sessione_avviata
+        FOREIGN KEY (id_sessione) REFERENCES SessioneCampionamento(id)
+        ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+-- creazione tabella Diramazione
+CREATE TABLE DiramazioneAllerta (
+    codice_zona INT,
+    id_allerta INT,
+    PRIMARY KEY (codice_zona, id_allerta),
+    CONSTRAINT fk_zona_interessata
+        FOREIGN KEY (codice_zona) REFERENCES Zona(codice)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT fk_allerta_diramata
+        FOREIGN KEY (id_allerta) REFERENCES Allerta(id)
+        ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+-- creazione tabella Verifica
+CREATE TABLE VerificaPost (
+    id_post INT,
+    id_fact_checker INT,
+    data_ora DATETIME,
+    PRIMARY KEY (id_post, id_fact_checker),
+    CONSTRAINT fk_post_verificato
+        FOREIGN KEY (id_post) REFERENCES Post(id)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT fk_fact_checker_verificatore
+        FOREIGN KEY (id_fact_checker) REFERENCES FactChecker(id)
+        ON UPDATE CASCADE ON DELETE CASCADE
+);
