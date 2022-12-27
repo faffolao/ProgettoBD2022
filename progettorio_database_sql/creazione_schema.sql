@@ -173,7 +173,7 @@ CREATE TABLE Segnalazione (
     grado_attendibilita DECIMAL (3, 1) DEFAULT NULL,
     id_utente INT,
     CONSTRAINT fk_id_utente_segnalazione
-        FOREIGN KEY (id_utente) REFERENCES Utente(id)
+        FOREIGN KEY (id_utente) REFERENCES UtentePiattaforma(id)
         ON UPDATE CASCADE ON DELETE SET NULL,
     CHECK (grado_attendibilita >= 0.0 AND grado_attendibilita <= 10.0)
 );
