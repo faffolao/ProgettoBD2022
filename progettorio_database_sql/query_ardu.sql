@@ -28,3 +28,41 @@ UPDATE Utente SET grado_attendibilita = 9.0 WHERE id = 1 AND grado_attendibilita
 UPDATE Post SET grado_attendibilita = 6.8 WHERE id = 1 AND grado_attendibilita IS NULL;
 
 UPDATE FileMultimediale SET grado_attendibilita = 6.8 WHERE id_post = 1 AND grado_attendibilita IS NULL;
+
+-- QUERY DI SELEZIONE
+-- ==================
+-- 36.	Ricerca tramite hashtag (fornisco, ad esempio, l'hashtag #book=
+SELECT * FROM Post WHERE testo LIKE '%#book%';
+
+-- 37.	Ricerca tramite key-words
+SELECT * FROM Post WHERE (
+    testo LIKE '%2022%'
+    OR testo LIKE '%libri%'
+);
+
+-- 38.	Ricerca tramite posizione geografica
+SELECT Post.id, Post.url, Post.data_ora, Post.piattaforma_provenienza, Post.testo, Post.grado_attendibilita,
+       Post.id_utente, Zona.comune, Zona.provincia
+FROM Post
+JOIN Zona ON Post.id_zona = Zona.codice
+WHERE Zona.comune LIKE '%NULL%' OR Zona.provincia LIKE '%Pesaro Urbino%';
+
+-- 39.	Statistica dei valori ottenuti nel periodo di riferimento desiderato
+SELECT SessioneCampionamento.id AS id_sessione, SessioneCampionamento.data_ora AS data_ora_sessione,
+       SessioneCampionamento.id_zona AS zona_campionamento, Misurazione.id AS id_misurazione, Misurazione.valore_rilevato,
+       Misurazione.timestamp
+FROM SessioneCampionamento
+JOIN Misurazione ON SessioneCampionamento.id = Misurazione.id_sessione
+WHERE SessioneCampionamento.data_ora BETWEEN '2022-06-13' AND '2022-06-15';
+
+-- 40.	Statistica dell’indice di attendibilità del contenuto testuale/multimediale
+SELECT grado_attendibilita FROM Post WHERE id = 4;
+
+-- QUERY DI CANCELLAZIONE
+-- ======================
+
+-- 26 - Cancellazione contenuti multimediali dei social network
+
+-- 27 - Cancellazione Utente della piattaforma proprietaria
+
+-- 28 - Cancellazione diramazione allerta
