@@ -49,8 +49,8 @@ WHERE Zona.comune LIKE '%NULL%' OR Zona.provincia LIKE '%Pesaro Urbino%';
 
 -- 39.	Statistica dei valori ottenuti nel periodo di riferimento desiderato
 SELECT SessioneCampionamento.id AS id_sessione, SessioneCampionamento.data_ora AS data_ora_sessione,
-       SessioneCampionamento.id_zona AS zona_campionamento, Misurazione.id AS id_misurazione, Misurazione.valore_rilevato,
-       Misurazione.timestamp
+       SessioneCampionamento.id_zona AS zona_campionamento, SessioneCampionamento.media_misurazioni AS media_valori,
+       Misurazione.id AS id_misurazione, Misurazione.valore_rilevato, Misurazione.timestamp
 FROM SessioneCampionamento
 JOIN Misurazione ON SessioneCampionamento.id = Misurazione.id_sessione
 WHERE SessioneCampionamento.data_ora BETWEEN '2022-06-13' AND '2022-06-15';
@@ -62,7 +62,10 @@ SELECT grado_attendibilita FROM Post WHERE id = 4;
 -- ======================
 
 -- 26 - Cancellazione contenuti multimediali dei social network
+DELETE FROM FileMultimediale WHERE id = 8;
 
 -- 27 - Cancellazione Utente della piattaforma proprietaria
+DELETE FROM UtentePiattaforma WHERE id = 2;
 
 -- 28 - Cancellazione diramazione allerta
+DELETE FROM Allerta WHERE id = 4;
