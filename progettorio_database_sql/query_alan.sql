@@ -45,7 +45,7 @@ SELECT *
 FROM Misurazione
 INNER JOIN SessioneCampionamento
 ON Misurazione.id_sessione = SessioneCampionamento.id
-WHERE valore_rilevato > val_min AND valore_rilevato > val_max;
+WHERE valore_rilevato > val_min AND valore_rilevato < val_max;
 
 -- 7. Selezione dei dati che superano le soglie minime di pericolo
 
