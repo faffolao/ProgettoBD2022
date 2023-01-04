@@ -171,9 +171,13 @@ CREATE TABLE Segnalazione (
     situazione_di_pericolo BOOLEAN,
     data_ora DATETIME NOT NULL,
     grado_attendibilita DECIMAL (3, 1) DEFAULT NULL,
+    id_zona INT,
     id_utente INT,
     CONSTRAINT fk_id_utente_segnalazione
         FOREIGN KEY (id_utente) REFERENCES UtentePiattaforma(id)
+        ON UPDATE CASCADE ON DELETE SET NULL,
+    CONSTRAINT fk_id_zona_segnalazione
+        FOREIGN KEY (id_zona) REFERENCES Zona(codice)
         ON UPDATE CASCADE ON DELETE SET NULL,
     CHECK (grado_attendibilita >= 0.0 AND grado_attendibilita <= 10.0)
 );

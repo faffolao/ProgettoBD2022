@@ -5,8 +5,8 @@
 -- QUERY DI INSERIMENTO
 -- ====================
 -- 13.	Inserimento segnalazione Post inerente a un evento straordinario
-INSERT INTO Segnalazione(commento, tipologia, url_post, situazione_di_pericolo, data_ora, grado_attendibilita, id_utente)
-VALUES ('Aiuto aiuto, c\'è una forte bufera di neve qui a Cantiano!!! Che disastro!!!', 'Segnalazione neve', 'https://www.instagram.com/p/CmPL5_PuSul', true, '2022-12-27 12:00:00', 3.2, 1);
+INSERT INTO Segnalazione(commento, tipologia, url_post, situazione_di_pericolo, data_ora, grado_attendibilita, id_zona, id_utente)
+VALUES ('Aiuto aiuto, c\'è una forte bufera di neve qui a Cantiano!!! Che disastro!!!', 'Segnalazione neve', 'https://www.instagram.com/p/CmPL5_PuSul', true, '2022-12-27 12:00:00', 3.2, 1, 1);
 
 INSERT INTO Post(url, data_ora, piattaforma_provenienza, testo, grado_attendibilita, id_zona, id_utente)
 VALUES ('https://www.instagram.com/p/CmPL5_PuSul', '2022-12-16 18:23:00', 'Instagram', 'If you had to choose one word to represent 2022, what would it be?', 8.9, 3, 1);
