@@ -7,8 +7,11 @@
 
 -- 1. Inserimento nuovo collaboratore
 
-INSERT INTO Collaboratore(id, nome, cognome, email, cellulare)
+INSERT INTO Collaboratore(nome, cognome, email, cellulare)
 VALUES (...);
+
+INSERT INTO Collaboratore(nome, cognome, email, cellulare)
+VALUES (Mario, Rossi, mario.rossi@gmail.com, null);
 
 -- 2. Inserimento nuovo sensore
 
@@ -17,12 +20,12 @@ VALUES (...);
 
 -- 3. Inserimento nuova sessione di campionamento
 
-INSERT INTO SessioneCampionamento(id, data_ora, durata, media_misurazioni, id_zona)
+INSERT INTO SessioneCampionamento(data_ora, durata, media_misurazioni, id_zona)
 VALUES (...);
 
 -- 4. Inserimento dei dati ottenuti dalla sessione di campionamento
 
-INSERT INTO Misurazione(id, valore_rilevato, id_sessione, matricola_sensore)
+INSERT INTO Misurazione(valore_rilevato, id_sessione, matricola_sensore)
 VALUES (...);
 
 -- 5. Inserimento delle soglie minime di pericolo
