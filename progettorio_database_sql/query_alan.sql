@@ -43,6 +43,15 @@ VALUES ('2022-12-15 10:15:13', 30.00, 5);
 /*
 INSERT INTO Misurazione(valore_rilevato, timestamp, id_sessione, matricola_sensore)
 VALUES (...);
+
+UPDATE SessioneCampionamento
+SET media_misurazioni = (
+    SELECT AVG(valore_rilevato)
+    FROM Misurazione
+    JOIN Sensore ON Misurazione.matricola_sensore = Sensore.matricola
+    WHERE id_sessione = <id sessione di campionamento> AND Sensore.tipologia LIKE '%<tipologia sensore>%'
+    )
+WHERE id = <id sessione di campionamento>;
 */
 
 INSERT INTO Misurazione(valore_rilevato, timestamp, id_sessione, matricola_sensore)
@@ -53,7 +62,7 @@ SET media_misurazioni = (
     SELECT AVG(valore_rilevato)
     FROM Misurazione
     JOIN Sensore ON Misurazione.matricola_sensore = Sensore.matricola
-    WHERE id_sessione = 1 AND Sensore.tipologia LIKE 'radiometro per bacino d’acqua%'
+    WHERE id_sessione = 1 AND Sensore.tipologia LIKE '%radiometro per bacino d''acqua%'
     )
 WHERE id = 1;
 
@@ -162,6 +171,10 @@ WHERE id = <id utente piattaforma>;
 -- 20. Modifica dell'indice di affidabilità dell'utente (da escludere utente piattaforma o integrare la query) - Testato
 
 /*
+UPDATE Utente
+SET grado_attendibilità = <nuovo grado di attendibilità>
+WHERE id = <id utente>;
+
 UPDATE Utente
 SET grado_attendibilità = <nuovo grado di attendibilità>
 WHERE id = <id utente>;
