@@ -17,7 +17,7 @@ CREATE TABLE Sensore (
     anno_produzione YEAR,
     descrizione TEXT,
     versione_firwmare DECIMAL(3, 1),
-    CHECK (tipologia = 'Radiometro per bacino d\'acqua' OR tipologia = 'Radiometro per umidità' OR tipologia = 'idrometro')
+    CHECK (tipologia = 'Radiometro per bacino d\'acqua' OR tipologia = 'Radiometro per umidità' OR tipologia = 'Idrometro')
 );
 
 -- creazione tabella Riparazione
