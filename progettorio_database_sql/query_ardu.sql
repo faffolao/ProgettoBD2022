@@ -49,14 +49,21 @@ WHERE Zona.comune LIKE '%NULL%' OR Zona.provincia LIKE '%Pesaro Urbino%';
 
 -- 39.	Statistica dei valori ottenuti nel periodo di riferimento desiderato
 SELECT SessioneCampionamento.id AS id_sessione, SessioneCampionamento.data_ora AS data_ora_sessione,
-       SessioneCampionamento.id_zona AS zona_campionamento, SessioneCampionamento.media_misurazioni AS media_valori,
-       Misurazione.id AS id_misurazione, Misurazione.valore_rilevato, Misurazione.timestamp
+       Zona.comune AS zona_campionamento, SessioneCampionamento.media_misurazioni AS media_valori,
+       COUNT(Misurazione.id) AS num_misurazioni, SUM(Misurazione.valore_rilevato) AS tot_valori,
+       MAX(Misurazione.valore_rilevato) AS valore_max, MIN(Misurazione.valore_rilevato) AS valore_min
 FROM SessioneCampionamento
 JOIN Misurazione ON SessioneCampionamento.id = Misurazione.id_sessione
-WHERE SessioneCampionamento.data_ora BETWEEN '2022-06-13' AND '2022-06-15';
+JOIN Zona ON SessioneCampionamento.id_zona = Zona.codice
+WHERE SessioneCampionamento.data_ora BETWEEN '2022-01-01' AND '2022-12-31'
+GROUP BY SessioneCampionamento.id;
 
 -- 40.	Statistica dell’indice di attendibilità del contenuto testuale/multimediale
-SELECT grado_attendibilita FROM Post WHERE id = 4;
+SELECT Post.grado_attendibilita AS grado_attendibilita_post, AVG(FileMultimediale.grado_attendibilita)
+    AS grado_attendibilita_fm_avg
+FROM Post
+JOIN FileMultimediale on Post.id = FileMultimediale.id_post
+WHERE Post.id = 2;
 
 -- QUERY DI CANCELLAZIONE
 -- ======================
