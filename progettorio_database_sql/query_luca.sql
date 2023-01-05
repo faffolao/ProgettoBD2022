@@ -50,4 +50,11 @@ DELETE FROM SessioneCampionamento
 WHERE data_ora BETWEEN '2019-01-01 00:00' AND '2019-12-31 23:59';
 
 -- 25.Cancellazione contenuti testuali dei social network
-DELETE FROM Post WHERE id = 2;
+DELETE FROM Post
+WHERE id = 2
+AND (
+        SELECT COUNT(*)
+        FROM (SELECT * FROM Post) as ps
+        JOIN FileMultimediale ON ps.id = FileMultimediale.id_post
+        WHERE ps.id = 2
+) = 0;
