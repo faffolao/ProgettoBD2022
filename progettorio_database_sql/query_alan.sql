@@ -31,12 +31,12 @@ VALUES ('1000000', 'idrometro', 2022, 'Asta graduata che serve a determinare la 
 --       sessione di campionamento possono essere di tipologie diverse? (ovviare con una nota a pié di pagina)
 
 /*
-INSERT INTO SessioneCampionamento(data_ora, durata, media_misurazioni, id_zona)
+INSERT INTO SessioneCampionamento(data_ora, durata, id_zona)
 VALUES (...);
 */
 
-INSERT INTO SessioneCampionamento(data_ora, durata, media_misurazioni, id_zona)
-VALUES ('2022-12-15 10:15:13', 30.00, 7.9, 5);
+INSERT INTO SessioneCampionamento(data_ora, durata, id_zona)
+VALUES ('2022-12-15 10:15:13', 30.00, 5);
 
 -- 4. Inserimento dei dati ottenuti dalla sessione di campionamento - Testato
 
@@ -47,6 +47,15 @@ VALUES (...);
 
 INSERT INTO Misurazione(valore_rilevato, timestamp, id_sessione, matricola_sensore)
 VALUES (5.4, '2022-12-15 10:15:13', 4, 4353246674);
+
+UPDATE SessioneCampionamento
+SET media_misurazioni = (
+    SELECT AVG(valore_rilevato)
+    FROM Misurazione
+    JOIN Sensore ON Misurazione.matricola_sensore = Sensore.matricola
+    WHERE id_sessione = 1 AND Sensore.tipologia LIKE 'radiometro per bacino d’acqua%'
+    )
+WHERE id = 1;
 
 -- 5. Inserimento delle soglie minime di pericolo - Testato
 
