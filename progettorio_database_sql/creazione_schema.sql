@@ -27,10 +27,10 @@ CREATE TABLE Riparazione (
     tipologia VARCHAR(30),
     esito BOOLEAN,
     descrizione TEXT,
-    id_sensore VARCHAR(12),
+    id_sensore VARCHAR(12) NOT NULL,
     CONSTRAINT fk_id_sensore
         FOREIGN KEY (id_sensore) REFERENCES Sensore(matricola)
-        ON UPDATE CASCADE ON DELETE SET NULL,
+        ON UPDATE CASCADE ON DELETE CASCADE,
     CHECK(tipologia = 'Sostituzione' OR tipologia = 'Aggiornamento' OR tipologia = 'Reset' OR tipologia = 'Ricalibrazione')
 );
 
@@ -42,10 +42,10 @@ CREATE TABLE SessioneCampionamento (
     val_min FLOAT,
     val_max FLOAT,
     media_misurazioni FLOAT,
-    id_zona INT,
+    id_zona INT NOT NULL,
     CONSTRAINT fk_id_zona
         FOREIGN KEY (id_zona) REFERENCES Zona(codice)
-        ON UPDATE CASCADE ON DELETE SET NULL
+        ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- creazione tabella Misurazione
@@ -53,14 +53,14 @@ CREATE TABLE Misurazione (
     id INT PRIMARY KEY AUTO_INCREMENT,
     valore_rilevato FLOAT NOT NULL,
     timestamp DATETIME NOT NULL,
-    id_sessione INT,
-    matricola_sensore VARCHAR(12),
+    id_sessione INT NOT NULL,
+    matricola_sensore VARCHAR(12) NOT NULL,
     CONSTRAINT fk_id_sessione
         FOREIGN KEY (id_sessione) REFERENCES SessioneCampionamento(id)
         ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT fk_matricola_sensore
         FOREIGN KEY (matricola_sensore) REFERENCES Sensore(matricola)
-        ON UPDATE CASCADE ON DELETE SET NULL
+        ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- +---------------------------+
@@ -142,7 +142,7 @@ CREATE TABLE Post (
     testo TEXT,
     grado_attendibilita DECIMAL (3, 1) DEFAULT NULL,
     id_zona INT,
-    id_utente INT,
+    id_utente INT NOT NULL,
     CONSTRAINT fk_id_zona_post
         FOREIGN KEY (id_zona) REFERENCES Zona(codice)
         ON UPDATE CASCADE ON DELETE SET NULL,
@@ -181,14 +181,14 @@ CREATE TABLE Segnalazione (
     situazione_di_pericolo BOOLEAN,
     data_ora DATETIME NOT NULL,
     grado_attendibilita DECIMAL (3, 1) DEFAULT NULL,
-    id_zona INT,
-    id_utente INT,
+    id_zona INT NOT NULL,
+    id_utente INT NOT NULL,
     CONSTRAINT fk_id_utente_segnalazione
         FOREIGN KEY (id_utente) REFERENCES UtentePiattaforma(id)
-        ON UPDATE CASCADE ON DELETE SET NULL,
+        ON UPDATE CASCADE ON DELETE NO ACTION,
     CONSTRAINT fk_id_zona_segnalazione
         FOREIGN KEY (id_zona) REFERENCES Zona(codice)
-        ON UPDATE CASCADE ON DELETE SET NULL,
+        ON UPDATE CASCADE ON DELETE CASCADE,
     CHECK (grado_attendibilita >= 0.0 AND grado_attendibilita <= 10.0),
     CHECK (tipologia = 'Segnalazione temporale' OR tipologia = 'Segnalazione inondazione'
                OR tipologia = 'Segnalazione neve' OR tipologia = 'Segnalazione vento')
