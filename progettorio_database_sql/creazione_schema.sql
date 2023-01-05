@@ -16,7 +16,8 @@ CREATE TABLE Sensore (
     tipologia VARCHAR(50) NOT NULL,
     anno_produzione YEAR,
     descrizione TEXT,
-    versione_firwmare DECIMAL(3, 1)
+    versione_firwmare DECIMAL(3, 1),
+    CHECK (tipologia = 'Radiometro per bacino d\'acqua' OR tipologia = 'Radiometro per umidità' OR tipologia = 'idrometro')
 );
 
 -- creazione tabella Riparazione
@@ -29,7 +30,8 @@ CREATE TABLE Riparazione (
     id_sensore VARCHAR(12),
     CONSTRAINT fk_id_sensore
         FOREIGN KEY (id_sensore) REFERENCES Sensore(matricola)
-        ON UPDATE CASCADE ON DELETE SET NULL
+        ON UPDATE CASCADE ON DELETE SET NULL,
+    CHECK(tipologia = 'Sostituzione' OR tipologia = 'Aggiornamento' OR tipologia = 'Reset' OR tipologia = 'Ricalibrazione')
 );
 
 -- creazione tabella SessioneCampionamento
@@ -73,7 +75,10 @@ CREATE TABLE Zona (
     regione VARCHAR(20) NOT NULL,
     latitudine DECIMAL(9, 7),
     longitudine DECIMAL(9, 7),
-    quota DECIMAL(5, 1)
+    quota DECIMAL(5, 1),
+    CHECK(tipologia = 'Zona pianeggiante' OR tipologia = 'Zona collinare' OR tipologia = 'Zona fluviale'
+              OR tipologia = 'Zona montuosa'),
+    CHECK(quota > 0)
 );
 
 -- creazione tabella Allerta
@@ -81,7 +86,9 @@ CREATE TABLE Allerta (
     id INT PRIMARY KEY AUTO_INCREMENT,
     descrizione TEXT,
     data_ora DATETIME NOT NULL,
-    tipologia VARCHAR(30) NOT NULL
+    tipologia VARCHAR(30) NOT NULL,
+    CHECK(tipologia = 'Allerta temporale' OR tipologia = 'Allerta neve' OR tipologia = 'Allerta inondazione' OR
+          tipologia = 'Allerta vento')
 );
 
 -- +-----------------------------+
@@ -142,7 +149,9 @@ CREATE TABLE Post (
     CONSTRAINT fk_id_utente
         FOREIGN KEY (id_utente) REFERENCES Utente(id)
         ON UPDATE CASCADE ON DELETE NO ACTION,
-    CHECK (grado_attendibilita >= 0.0 AND grado_attendibilita <= 10.0)
+    CHECK (grado_attendibilita >= 0.0 AND grado_attendibilita <= 10.0),
+    CHECK (piattaforma_provenienza = 'Facebook' OR piattaforma_provenienza = 'Instagram'
+               OR piattaforma_provenienza = 'Twitter' OR piattaforma_provenienza = 'TikTok')
 );
 
 -- creazione tabella File multimediale
@@ -159,7 +168,8 @@ CREATE TABLE FileMultimediale (
     CONSTRAINT fk_id_segnalazione_file_multimediale
         FOREIGN KEY (id_segnalazione) REFERENCES Segnalazione(id)
         ON UPDATE CASCADE ON DELETE CASCADE,
-    CHECK (grado_attendibilita >= 0.0 AND grado_attendibilita <= 10.0)
+    CHECK (grado_attendibilita >= 0.0 AND grado_attendibilita <= 10.0),
+    CHECK (tipologia = 'Immagine' OR tipologia = 'Video')
 );
 
 -- creazione tabella Segnalazione
@@ -179,7 +189,9 @@ CREATE TABLE Segnalazione (
     CONSTRAINT fk_id_zona_segnalazione
         FOREIGN KEY (id_zona) REFERENCES Zona(codice)
         ON UPDATE CASCADE ON DELETE SET NULL,
-    CHECK (grado_attendibilita >= 0.0 AND grado_attendibilita <= 10.0)
+    CHECK (grado_attendibilita >= 0.0 AND grado_attendibilita <= 10.0),
+    CHECK (tipologia = 'Segnalazione temporale' OR tipologia = 'Segnalazione inondazione'
+               OR tipologia = 'Segnalazione neve' OR tipologia = 'Segnalazione vento')
 );
 
 -- +---------------------------------------+
